@@ -5,6 +5,9 @@
 \usepackage{fullpage}
 \usepackage{hyperref}
 
+\newtheorem{rg}{Reguła}
+\newtheorem{twr}{Twierdzenie}
+
 \title{Proste algorytmy klasyfikacji tekstu \\ Założenia wstępne projektu}
 \author{Marcin Kaczyński \and Krystian Lieber}
 
@@ -20,9 +23,61 @@ Do nauki i oceny klasyfikatorów zostanie wykorzystany zbiór \textit{SMS Spam C
 
 \section{Algorytmy}
 
+Załóżmy, że mamy dany zbiór uczący podzielony na klasy $C_i, i = 1, 2, \dots, m$. W zadaniu $i=2$. 
+
 \subsection{Algorytm \textit{k-NN}}
-\subsection{Naiwny klasyfikator Bayes'a}
+
+W algorytmie klasyfikacji \textit{k-NN} dla klasyfikowanego przykładu $x$ szukamy $k$ (wartość z góry ustalona) próbek które leżą najbliżej $x$ w sensie ustalonej miary a następnie na podstawie głosowania wśród wybranych sąsiadów określamy do której klasy $C_i$ należy $x$.\\
+
+W zadaniu do znalezienia najbliższych sąsiadów zostanie wykorzystana \textit{miara kosinusowa}.
+
+\begin{center}
+$sim(v_1, v_2) = \frac{v_1*v_2}{|v_1||v_2|}$
+\end{center}
+
+oraz miara \textit{TF-IDF} (opisana w kolejnych sekcjach).\\
+
+Aby móc porównywać słowa wg wspomnianych miar, należy je przedstawić w postaci wektorowej. Podstawowa idea reprezentacji wektorowej sprowadza się do tego, że wiadomość jest reprezentowana w postaci wektora częstości występowania słów. Zbiór wszystkich wiadomości można przedstawić w postaci macierzy, o nazwie \textit{Term Frequency Matrix}, której element $[w_i, s_i]$ reprezentuje liczbę wystąpień słowa $s_i$ w wiadomości $w_i$. Dowolna wiadomość $w_i$ jest reprezentowana w postaci wektora częstości występowania słów kluczowych.
+
 \subsection{Algorytm \textit{TF-IDF}}
+
+\subsection{Naiwny klasyfikator Bayesa}
+ 
+\begin{rg}[Bayes]
+Próbkę $X$ klasyfikujemy jako pochodzącą z tej klasy $C_i$, dla której wartość $P(C_i|X), i = 1, 2, \dots, m$, jest największa.
+\end{rg}
+ 
+Problem sprowadza się do wyznaczenia prawdopodobieństw $P(C_i|X)$.
+W ogólności aby wyznaczyć te prawdopodobieństwa, należy skorzystać z~następującego twierdzenia:
+
+\begin{twr}[Bayes]
+$P(C|X) = \frac{P(X|C)*P(C)}{P(X)}$
+\end{twr}
+ 
+gdzie:
+
+\begin{itemize}
+\item \textbf{$P(C)$} jest prawdopodobieństwem \textit{a priori} wystąpienia
+klasy $C$,
+\item \textbf{$P(X|C)$} oznacza prawdopodobieństwo \textit{a posteriori}, że
+$X$ należy do klasy $C$,
+\item \textbf{$P(X)$} oznacza prawdopodobieństwo \textit{a priori} wystąpienia przykładu $X$.
+\end{itemize} 
+ 
+Przy założeniu o niezależności atrybutów, prawdopodobieństwo $P(X|C_i)$ możemy wyznaczyć z formuły $P(X|C_i) = \prod\limits_{j=1}^n P(x_j|C_i)$, gdzie wartości prawdopodobieństw iloczynu estymujemy
+w zależności od przyjętej metody.\\
+
+Warto zaznaczyć, że w przypadku dokumentów tekstowych nie jest spełnione założenie o warunkowej niezależności wartości atrybutów, jednak w praktyce nie obniża to skuteczności klasyfikatora. W zadaniu klasyfikowania wiadomości atrybutami są kolejne słowa w wiadomości.\\
+
+Przyjmujemy założenie, że prawdopodobieństwo wystąpienia słowa w tekście jest niezależne od jego pozycji. Dzięki temu założeniu znacząco maleje liczba estymat prawdopodobieństw które należy wyznaczyć podczas uczenia.\\
+
+Do wyznaczenia wspomnianych estymat $P(x_j|C_i)$ wykorzystujemy następujący wzór:
+
+\begin{center}
+$\frac{n_k + 1}{n + |D|}$
+\end{center}
+
+gdzie $n$ - całkowita liczba słów w wiadomościach uczących które należą do klasy $C_i$, $n_k$ - liczba wystąpnień słow $x_j$ w tekstach z klasy $C_i$, a |D| - liczba rozróżnialnych słów występujących we wszystkich tekstach uczących.
 
 \section{Plan eksperymentów}
 
@@ -58,6 +113,8 @@ W naszym przypadku będziemy mierzyć jakość modeli na podstawie 2 wskaźnikó
 \section{Kwestie otwarte}
 
 Ponieważ wykorzystywany korpus zawiera istotnie mniej spamu niż zwykłych wiadomości, aby zwiększyć jakość klasyfikacji i samą jakość oceny modelu tych drugich wiadomości skorzystamy z techniki nazywanej \textit{leave one out} lub \textit{jack knife}. Technika zakłada wielokrotne testowanie modelu przy takim podziale całego
-zbioru próbek, że w zbiorze uczącym znajduje się $(n-1)$ próbek, a w zbiorze testowym 1 próbka. W naszym przypadku zmodyfikujemy tę technikę, tak żeby zbiór testowy składał się z pewnej liczby $k$ zwykłych wiadomości i 1 wiadomości zawierającej spam, a zbiór uczący ze wszystkich pozostałych próbek. Jeżeli uczenie klasyfikatorów okaże się czasochłonne, prawdopodobnie zrezygnujemy z tej części.
+zbioru próbek, że w zbiorze uczącym znajduje się $(n-1)$ próbek, a w zbiorze testowym 1 próbka. W naszym przypadku zmodyfikujemy tę technikę, tak żeby zbiór testowy składał się z pewnej liczby $k$ zwykłych wiadomości i 1 wiadomości zawierającej spam, a zbiór uczący ze wszystkich pozostałych próbek. Jeżeli uczenie klasyfikatorów okaże się czasochłonne, prawdopodobnie zrezygnujemy z tej części.\\
+
+Otwartą kwestię stanowi dodatkowo zbiór \textit{stopwords} czyli słów które nie mają znaczenia dla klasyfikacji - te słowa mogą zostać usunięte z tekstów. Dodatkowo w przypadku wiadomości SMS warto zastanowić się nad pojawiajacymi się w wiadomościach skrótami (być może skróty zostaną włączone do listy \textit{stopwords} lub rozwinięte do pełnych słów).
 
 \end{document}
