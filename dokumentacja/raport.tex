@@ -14,23 +14,50 @@
 
 \section{Opis zadania} 
 
-Szczegółowa interpretacja tematu projektu
+W ramach zadania - ''Proste algorytmy klasyfikacji tekstu (TF-IDF, naiwny klasyfikator Bayesowski, kNN). Porównania ze standardowymi algorytmami klasyfikacji dostępnymi w R.'' zajmiemy się implementacją 3 wymienionych klasyfikatorów które zostaną dostosowane i wykorzystane w zagadnieniu rozpoznawania reklam i niechcianych wiadomości SMS.\\
+
+Do nauki i oceny klasyfikatorów zostanie wykorzystany zbiór \textit{SMS Spam Collection}\footnote{http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection} z repozytorium UCI. Opis tego zbioru znajduje się w kolejnych sekcjach niniejszego dokumentu.
 
 \section{Algorytmy}
 
-Opis algorytmów, które będą wykorzystane
+\subsection{Algorytm \textit{k-NN}}
+\subsection{Naiwny klasyfikator Bayes'a}
+\subsection{Algorytm \textit{TF-IDF}}
 
 \section{Plan eksperymentów}
 
+\subsection{Pytania, na które będzie poszukiwana odpowiedź}
+
+Celem zadania jest odpowiedzenie na pytanie, czy przekazana wiadomość SMS jest porządaną, zwykłą wiadomością, czy zawiera nieporządane treści lub reklamy.
+
+\subsection{Charakterystyka zbioru danych}
+
+Wybrany zbiór danych (\textit{SMS Spam Collection}) jest zbiorem etykietowanych wiadomości które zostały zebrane na potrzeby badania spamu wysyłanego SMS'ami. Korpus składa się z $4827$ zwykłych wiadomości oraz z $747$ wiadomości zawierających spam. Cała kolekcja wiadomości jest umieszczona w jednym pliku, w którym każda linijka składa się z etykiety wiadomości którą poprzedza oraz z wiadomości w oryginalnej postaci. Poniżej kilka przykładów:
+
 \begin{itemize}
-	\item pytania, na które będzie poszukiwana odpowiedź,
-	\item charakterystyka zbiorów danych, które będą wykorzystane (oraz ewentualnych czynności związanych z przygotowaniem danych),
-	\item parametry algorytmów, których wpływ na wyniki będzie badany,
-	\item sposób oceny jakości modeli,
+\item ham What you doing?how are you? 
+\item ham dun say so early hor... U c already then say... 
+\item ham MY NO. IN LUTON 0125698789 RING ME IF UR AROUND! H* 
+\item spam FreeMsg: Txt: CALL to No: 86888 \& claim your reward of 3 hours talk time to use from your phone now! ubscribe6GBP/ mnth inc 3hrs 16 stop?txtStop 
+\item spam Sunshine Quiz! Win a super Sony DVD recorder if you canname the capital of Australia? Text MQUIZ to 82277. B 
+\item spam URGENT! Your Mobile No 07808726822 was awarded a L2,000 Bonus Caller Prize on 02/09/03! This is our 2nd attempt to contact YOU! Call 0871-872-9758 BOX95QU 
 \end{itemize}
 
-\section{Dodatki}
+\textbf{TODO} tutaj dodać jeszcze opis jakiegoś preprocessingu tych wiadomości
 
-Otwarte kwestie wymagające późniejszego rozwiązania (wraz z wyjaśnieniem powodów, dla których ich rozwiązanie jest odłożone na później).
+\subsection{Parametry algorytmów}
+
+Parametry algorytmów, których wpływ na wyniki będzie badany.
+
+\subsection{Sposób oceny jakości modeli}
+
+W przypadku klasyfikacji narzuca sie prosty sposób oceny jakości modeli, taki, że dzielimy próbki na 2 podzbiory - zbiór uczący i zbiór testowy. Aby ocenić model przeprowadzamy uczenie klasyfikatora na próbkach pochodzących ze zbioru uczącego, a następnie sprawdzamy jaką jakość klasyfikacji uzyskujemy dla próbek ze zbioru testowego.\\
+
+W naszym przypadku będziemy mierzyć jakość modeli na podstawie 2 wskaźników. Będziemy określali jakość klasyfikacji zwykłych wiadomości (a więc iloraz poprawnie sklasyfikowanych zwykłych wiadomości do wszystkich zwykłych wiadomości) oraz jakość klasyfikacji spamu (analogicznie iloraz poprawnie klasyfikowanych niechcianych wiadomości do ich łącznej liczby).\\
+
+\section{Kwestie otwarte}
+
+Ponieważ wykorzystywany korpus zawiera istotnie mniej spamu niż zwykłych wiadomości, aby zwiększyć jakość klasyfikacji i samą jakość oceny modelu tych drugich wiadomości skorzystamy z techniki nazywanej \textit{leave one out} lub \textit{jack knife}. Technika zakłada wielokrotne testowanie modelu przy takim podziale całego
+zbioru próbek, że w zbiorze uczącym znajduje się $(n-1)$ próbek, a w zbiorze testowym 1 próbka. W naszym przypadku zmodyfikujemy tę technikę, tak żeby zbiór testowy składał się z pewnej liczby $k$ zwykłych wiadomości i 1 wiadomości zawierającej spam, a zbiór uczący ze wszystkich pozostałych próbek. Jeżeli uczenie klasyfikatorów okaże się czasochłonne, prawdopodobnie zrezygnujemy z tej części.
 
 \end{document}
