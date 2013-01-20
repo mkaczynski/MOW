@@ -108,21 +108,36 @@ W ramach wstępnego przetwarzania danych, zostały wykonana następujące kroki:
 
 Implementacja przewiduje również usunięcie znaczników xml z tekstów, ale w przypadku badanego zbioru nie występuje potrzeba usuwania takich znaczników. W stosunku do wcześniejszch rozważań, nie wykonano rozwijania skrótów pojawiających się w wiadomościach, ani nie włączono ich do listy stopwords.
 
-\section{Parametry algorytmów} % parametry algorytmów, których wpływ na wyniki był badany,
+\subsection{Parametry algorytmów} % parametry algorytmów, których wpływ na wyniki był badany,
 
-\subsection{Algorytm \textit{k-NN}}
+\subsubsection{Ogrniczenie słów w zbiorze uczącym}
+
+Ogólnie w tekstach w językach naturalnych, często pojawiają się słowa które wydają się nie mieć wpływu na to jak można sklasyfikować dany dokument. Wśród tych słów znajdują się np. zaimki, albo spójniki, które ze względu na swój charakter często są włączane do listy stopwords, jako nie mające wpływu na znaczenie dokumentu. Analogicznie, można oczekiwać, że słowa które bardzo rzadko pojawiają się w tekstach, również mogą nie mieć wpływu
+na ogólne znaczenie. Opierając się na tej przesłance, dodano parametr który opisuje minimalną częstość wystąpienia słowa w korpusie. Słowa, które
+występują w korpusie mniej razy, niż określa parametr, zostają usunięte. Wydaje się, że występowanie takich słów, jest nieporządane, a ich usunięcie
+poza poprawą jakości klasyfikacji przynosi również zysk w postaci zmniejszenia wymagań pamięciowych i czasowych algorytmów.\\
+
+Zakładamy, że taki parametr pozwoli m.in. na usunięcie nazw własnych, które wydają się pojawiać niezależnie od tego czy wiadomość należy sklasyfikować jako spam, czy jako zwykłą, porządaną wiadomość. 
+
+\subsubsection{Algorytm \textit{k-NN}}
 
 opisz
 
-\subsection{Algorytm \textit{TF-IDF}}
+\subsubsection{Algorytm \textit{TF-IDF}}
 
-mk opisze
+Skalowanie wartości miary TF-IDF w pewnym sensie powoduje usunięcie informacji o wadze danego słowa w ramach klasy, a z drugiej strony brak takiego skalowania bardzo może wprowadzać błędy dla zbiorów o nierównomiernym rozkładzie próbek (tak jest w przypadku zbioru \textit{SMSSpamCollection}. W ramach eksperymentów wprowadzono do algorytmu dodatkowy modyfikator związany z prawdopodobieństwem wystąpienia danej klasy - w dodatkowym wariancie algortymu suma wag \textit{tf-idf} dla wiadomości jest mnożona przez prawdopodobieństwo wystąpienia danej klasy. 
 
-\subsection{Naiwny klasyfikator Bayesa}
+\subsubsection{Naiwny klasyfikator Bayesa}
 
-mk opisze
+W ramach eksperymentów z klasyfikatorem Bayesa, zbadano jaki wpływ ma zmiana prawdopodobieństwa wystąpienia słowa w klasie. Zostały zbadane następujące warianty:
 
-\section{Ocena jakości modeli} % sposób oceny jakości modeli,
+\begin{itemize}
+\item prawdopobieństwo klasy wynika z liczności próbek z tej klasy w zbiorze uczącym, 
+\item prawdopodobieństwa wszystkich klas są równoprawdopodobne,
+\item prawdopodobieństwo wystąpienia klasy \textit{spam}, jest wyższe niż wynika z liczności próbek z tej klasy.
+\end{itemize}
+
+\subsection{Ocena jakości modeli} % sposób oceny jakości modeli,
 
 Modele dla opisanych algorytmów były budowane z wykorzystaniem $70\%$ danych ze zbioru \textit{SMSSpamCollection}. Dane do budowy modeli zostały
 wybrane w sposób losowy, z zachowaniem proporcji w klasach (tzn. wybierano dokładnie $70\%$ danych przypisanych do klasy \textit{spam} i $70\%$ 
