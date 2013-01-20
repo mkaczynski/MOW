@@ -182,6 +182,33 @@ opisz
 
 \subsubsection{Algorytm \textit{TF-IDF}}
 
+\begin{itemize}
+\item Wersja 1. Algorytm w podstawowej wersji.
+\item Wersja 2. Modyfikacja polegająca na uwzględnieniu prawdopodobieństwa wystąpienia klasy przy
+	podejmowaniu decyzji o wyborze klasy.
+\end{itemize}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
+\hline
+liczność & \textit{ham} & \textit{spam} & ogółem \\ \hline
+min: $0$ & 0.8413 & 0.9822 & 0.8602 \\ \hline
+min: $5$ & 0.8420 & 0.9778 & 0.8602 \\ \hline
+\end{tabular}
+\caption{\textit{TF-IDF} - wersja 1}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
+\hline
+liczność & \textit{ham} & \textit{spam} & ogółem \\ \hline
+min: $0$ & 0.9938 & 0.0711 & 0.8698 \\ \hline
+\end{tabular}
+\caption{\textit{TF-IDF} - wersja 2}
+\end{table}
+
 \subsubsection{Naiwny klasyfikator Bayesa}
 
 \begin{itemize}
@@ -193,7 +220,7 @@ opisz
 
 \vspace{0.5cm}
 
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
 \hline
@@ -214,7 +241,7 @@ min: $100$ & 0.7289 & 0.9862 & \\ \hline
 \caption{Bayes - wersja 1}
 \end{table}
 
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
 \hline
@@ -231,7 +258,7 @@ min: $5$ & 0.9648 & 0.9333 & 0.9606 \\ \hline
 W przypadku tabeli\ref{bayes:tab3} w kolumnie 2 zamieszczono informację o ustalonym prawdopodobieństwie
 wystąpienia klasy \textit{spam}. Jej rzeczywiste prawdopodobieństwo to $0.134$.
 
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{|l|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
 \hline
