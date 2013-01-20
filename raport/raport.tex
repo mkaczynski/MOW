@@ -1,0 +1,92 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{fullpage}
+\usepackage{hyperref}
+
+\title{Proste algorytmy klasyfikacji tekstu \\ Raport końcowy}
+\author{Marcin Kaczyński \and Krystian Lieber}
+
+\begin{document}
+
+\maketitle
+
+\section{Opis zadania} 
+
+W ramach zadania - ''Proste algorytmy klasyfikacji tekstu (TF-IDF, naiwny klasyfikator Bayesowski, kNN). Porównania ze standardowymi algorytmami klasyfikacji dostępnymi w R.'' zaimplementowano 3 wymienione klasyfikatory które następnie zostały wykorzystane w zagadnieniu rozpoznawania reklam i niechcianych wiadomości SMS.\\
+
+Do nauki i oceny klasyfikatorów wykorzystano zbiór \textit{SMS Spam Collection}\footnote{http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection} z repozytorium UCI. Opis zbioru znajduje się w sekcji \ref{dane:charakterystyka}.
+
+\section{Algorytmy}
+
+Tutaj powinno być trochę więcej niż w dokumentacji początkowej. Ja bym dodał informacje o szczegółach implementacji.
+
+\subsection{Algorytm \textit{k-NN}}
+
+opisz
+
+\subsection{Algorytm \textit{TF-IDF}}
+
+mk opisze
+
+\subsection{Naiwny klasyfikator Bayesa}
+
+mk opisze
+
+\subsection{Algortym z R}
+
+myślę, że bez szczegółów, tylko stwierdzenie co, z jakiego pakietu + referencja do opisu
+
+\subsection{Algorytm II z R}
+
+\section{Opis eksperymentów}
+
+\subsection{Pytania, na które poszukiwano odpowiedzi}
+
+Celem zadania było odpowiedzenie na pytanie, czy przekazana wiadomość SMS jest pożądaną, zwykłą wiadomością, czy zawiera niepożądane treści lub reklamy.
+
+\subsection{Charakterystyka zbioru danych}\label{dane:charakterystyka}
+
+Wybrany zbiór danych (\textit{SMS Spam Collection}) jest zbiorem etykietowanych wiadomości które zostały zebrane na potrzeby badania spamu wysyłanego SMS'ami. Korpus składa się z $4827$ zwykłych wiadomości oraz z $747$ wiadomości zawierających spam. Cała kolekcja wiadomości jest umieszczona w jednym pliku, w którym każda linijka składa się z etykiety wiadomości którą poprzedza oraz z wiadomości w oryginalnej postaci. Poniżej kilka przykładów:
+
+\begin{itemize}
+	\item ham What you doing?how are you? 
+	\item ham dun say so early hor... U c already then say... 
+	\item ham MY NO. IN LUTON 0125698789 RING ME IF UR AROUND! H* 
+	\item spam FreeMsg: Txt: CALL to No: 86888 \& claim your reward of 3 hours talk time to use from your phone now! ubscribe6GBP/ mnth inc 3hrs 16 stop?txtStop 
+	\item spam Sunshine Quiz! Win a super Sony DVD recorder if you canname the capital of Australia? Text MQUIZ to 82277. B 
+	\item spam URGENT! Your Mobile No 07808726822 was awarded a L2,000 Bonus Caller Prize on 02/09/03! This is our 2nd attempt to contact YOU! Call 0871-872-9758 BOX95QU 
+\end{itemize}
+
+\subsection{Preprocessing zbioru danych}
+
+mk opisze
+
+\section{Parametry algorytmów} % parametry algorytmów, których wpływ na wyniki był badany,
+
+\subsection{Algorytm \textit{k-NN}}
+
+opisz
+
+\subsection{Algorytm \textit{TF-IDF}}
+
+mk opisze
+
+\subsection{Naiwny klasyfikator Bayesa}
+
+mk opisze
+
+\section{Ocena jakości modeli} % sposób oceny jakości modeli,
+
+mk opisze
+
+\section{Wyniki}
+
+podejślij w jakiejś surowej postaci, to wkleję żeby było jednolicie
+
+\section{Wnioski}
+
+jak masz wnioski to wklejaj, a jak nie to coś tu naściemniam
+
+\end{document}

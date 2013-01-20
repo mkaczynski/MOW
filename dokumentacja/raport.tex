@@ -41,6 +41,46 @@ Aby móc porównywać słowa wg wspomnianych miar, należy je przedstawić w pos
 
 \subsection{Algorytm \textit{TF-IDF}}
 
+\paragraph{}
+
+\textit{TF-IDF} (Term Frequency Inverted Document Frequency) jest metodą wyznaczania ważności słowa występującego w dokumencie w kontekście korpusu. Waga rośnie proporcjonalnie do ilości wystąpień w tekście, ale jest skalowana przez ilość wszystkich wystąpień. Takie podejście pozwala na eliminację słów często występujących, które jednocześnie nie niosą z sobą informacji. Takie skalowanie pozwala uniezależnić się od przygotowywanej listy tzw. \textit{stopwords}.
+
+\paragraph{}
+Główne założenia na których opiera się \textit{TF-IDF} to:
+
+\begin{itemize}
+ \item słowo występujące w każdym dokumencie jest mało interesujące
+ \item słowo występujące tylko w kilku dokumentach jest bardziej interesujące
+\end{itemize}
+
+\paragraph{Obliczenia} 
+
+\subparagraph{TF}
+\begin{equation}
+  tf(t,d)=f(t,d)  
+\end{equation}
+
+gdzie t - słowo,  
+d - dokument
+
+f(t,d) ilość wystąpień słowa t w dokumencie d
+
+\subparagraph{IDF}
+\begin{equation}
+idf(t,D)=\log \frac{D}{d}
+\end{equation}
+
+gdzie t - słowo, D - liczba dokumentów, d - liczba dokumentów zawierających słowo t
+
+\subparagraph{TF-IDF}
+  
+\begin{equation}
+tfidf(t,d,D)=tf(t,d)*idf(t,D)
+\end{equation}
+
+\textit{TF-IDF} najczęściej jest wykorzystywane jako metoda obliczania wagi w innym algorytmie. Jednak można sobie wyobrazić metodę klasyfikacji polegającą na obliczeniu współczynnika tfidf dla słów z danej klasy w kontekście zbioru wszystkich dokumentów. Suma współczynników dla słów dokumentów była by wynikiem, który następnie byłby skalowany ilością słów w dokumencie. Ostateczna decyzja jest wynikiem wyboru tej klasy dla której
+uzyskany wynik jest najwyższy.
+  
 \subsection{Naiwny klasyfikator Bayesa}
  
 \begin{rg}[Bayes]
@@ -77,36 +117,50 @@ Do wyznaczenia wspomnianych estymat $P(x_j|C_i)$ wykorzystujemy następujący wz
 $\frac{n_k + 1}{n + |D|}$
 \end{center}
 
-gdzie $n$ - całkowita liczba słów w wiadomościach uczących które należą do klasy $C_i$, $n_k$ - liczba wystąpnień słow $x_j$ w tekstach z klasy $C_i$, a |D| - liczba rozróżnialnych słów występujących we wszystkich tekstach uczących.
+gdzie $n$ - całkowita liczba słów w wiadomościach uczących które należą do klasy $C_i$, $n_k$ - liczba wystąpień słów $x_j$ w tekstach z klasy $C_i$, a $|D|$ - liczba rozróżnialnych słów występujących we wszystkich tekstach uczących.
 
 \section{Plan eksperymentów}
 
 \subsection{Pytania, na które będzie poszukiwana odpowiedź}
 
-Celem zadania jest odpowiedzenie na pytanie, czy przekazana wiadomość SMS jest porządaną, zwykłą wiadomością, czy zawiera nieporządane treści lub reklamy.
+Celem zadania jest odpowiedzenie na pytanie, czy przekazana wiadomość SMS jest pożądaną, zwykłą wiadomością, czy zawiera niepożądane treści lub reklamy.
 
 \subsection{Charakterystyka zbioru danych}
 
 Wybrany zbiór danych (\textit{SMS Spam Collection}) jest zbiorem etykietowanych wiadomości które zostały zebrane na potrzeby badania spamu wysyłanego SMS'ami. Korpus składa się z $4827$ zwykłych wiadomości oraz z $747$ wiadomości zawierających spam. Cała kolekcja wiadomości jest umieszczona w jednym pliku, w którym każda linijka składa się z etykiety wiadomości którą poprzedza oraz z wiadomości w oryginalnej postaci. Poniżej kilka przykładów:
 
 \begin{itemize}
-\item ham What you doing?how are you? 
-\item ham dun say so early hor... U c already then say... 
-\item ham MY NO. IN LUTON 0125698789 RING ME IF UR AROUND! H* 
-\item spam FreeMsg: Txt: CALL to No: 86888 \& claim your reward of 3 hours talk time to use from your phone now! ubscribe6GBP/ mnth inc 3hrs 16 stop?txtStop 
-\item spam Sunshine Quiz! Win a super Sony DVD recorder if you canname the capital of Australia? Text MQUIZ to 82277. B 
-\item spam URGENT! Your Mobile No 07808726822 was awarded a L2,000 Bonus Caller Prize on 02/09/03! This is our 2nd attempt to contact YOU! Call 0871-872-9758 BOX95QU 
+	\item ham What you doing?how are you? 
+	\item ham dun say so early hor... U c already then say... 
+	\item ham MY NO. IN LUTON 0125698789 RING ME IF UR AROUND! H* 
+	\item spam FreeMsg: Txt: CALL to No: 86888 \& claim your reward of 3 hours talk time to use from your phone now! ubscribe6GBP/ mnth inc 3hrs 16 stop?txtStop 
+	\item spam Sunshine Quiz! Win a super Sony DVD recorder if you canname the capital of Australia? Text MQUIZ to 82277. B 
+	\item spam URGENT! Your Mobile No 07808726822 was awarded a L2,000 Bonus Caller Prize on 02/09/03! This is our 2nd attempt to contact YOU! Call 0871-872-9758 BOX95QU 
 \end{itemize}
 
-\textbf{TODO} tutaj dodać jeszcze opis jakiegoś preprocessingu tych wiadomości
+Wiadomości zostaną poddane wstępnemu przetwarzaniu w którym:
+
+\begin{enumerate}
+	\item Litery we wszystkich słowach zostaną zamienione na małe.
+	\item Zostaną rozwinięte skróty pojawiające się w wiadomościach (lub usunięte jeżeli okaże się, że skróty znajdują się na liście \textit{stopwords}, co na razie pozostaje kwestią otwartą).
+	\item Liczby i daty zostaną usunięte z tekstów.
+\end{enumerate}
 
 \subsection{Parametry algorytmów}
 
-Parametry algorytmów, których wpływ na wyniki będzie badany.
+\paragraph{Algorytm kNN}
+
+W algorytmie kNN będziemy porównywać wpływ liczby sąsiadów na otrzymywane wyniki, a dodatkowo sprawdzimy 2 miary obliczania odległości (\textit{miarę kosinusową} i \textit{miarę TF-IDF}).
+
+\paragraph{Algorytm TF-IDF}
+
+\paragraph{Naiwny klasyfikator Bayesa}
+
+Dla naiwnego klasyfikatora Bayesa, poza wykonaniem obliczeń dla prawdopodobieństw \textit{a priori} wyboru klasy takich jak wynikają z charakterystyki zbioru uczącego, zbadamy jaki wpływ na wyniki będzie miało zmienienie tych wartości.
 
 \subsection{Sposób oceny jakości modeli}
 
-W przypadku klasyfikacji narzuca sie prosty sposób oceny jakości modeli, taki, że dzielimy próbki na 2 podzbiory - zbiór uczący i zbiór testowy. Aby ocenić model przeprowadzamy uczenie klasyfikatora na próbkach pochodzących ze zbioru uczącego, a następnie sprawdzamy jaką jakość klasyfikacji uzyskujemy dla próbek ze zbioru testowego.\\
+W przypadku klasyfikacji narzuca się prosty sposób oceny jakości modeli, taki, że dzielimy próbki na 2 podzbiory - zbiór uczący i zbiór testowy. Aby ocenić model przeprowadzamy uczenie klasyfikatora na próbkach pochodzących ze zbioru uczącego, a następnie sprawdzamy jaką jakość klasyfikacji uzyskujemy dla próbek ze zbioru testowego.\\
 
 W naszym przypadku będziemy mierzyć jakość modeli na podstawie 2 wskaźników. Będziemy określali jakość klasyfikacji zwykłych wiadomości (a więc iloraz poprawnie sklasyfikowanych zwykłych wiadomości do wszystkich zwykłych wiadomości) oraz jakość klasyfikacji spamu (analogicznie iloraz poprawnie klasyfikowanych niechcianych wiadomości do ich łącznej liczby).\\
 
@@ -115,6 +169,26 @@ W naszym przypadku będziemy mierzyć jakość modeli na podstawie 2 wskaźnikó
 Ponieważ wykorzystywany korpus zawiera istotnie mniej spamu niż zwykłych wiadomości, aby zwiększyć jakość klasyfikacji i samą jakość oceny modelu tych drugich wiadomości skorzystamy z techniki nazywanej \textit{leave one out} lub \textit{jack knife}. Technika zakłada wielokrotne testowanie modelu przy takim podziale całego
 zbioru próbek, że w zbiorze uczącym znajduje się $(n-1)$ próbek, a w zbiorze testowym 1 próbka. W naszym przypadku zmodyfikujemy tę technikę, tak żeby zbiór testowy składał się z pewnej liczby $k$ zwykłych wiadomości i 1 wiadomości zawierającej spam, a zbiór uczący ze wszystkich pozostałych próbek. Jeżeli uczenie klasyfikatorów okaże się czasochłonne, prawdopodobnie zrezygnujemy z tej części.\\
 
-Otwartą kwestię stanowi dodatkowo zbiór \textit{stopwords} czyli słów które nie mają znaczenia dla klasyfikacji - te słowa mogą zostać usunięte z tekstów. Dodatkowo w przypadku wiadomości SMS warto zastanowić się nad pojawiajacymi się w wiadomościach skrótami (być może skróty zostaną włączone do listy \textit{stopwords} lub rozwinięte do pełnych słów).
+Otwartą kwestię stanowi dodatkowo zbiór \textit{stopwords} czyli słów które nie mają znaczenia dla klasyfikacji - te słowa mogą zostać usunięte z tekstów. Dodatkowo w przypadku wiadomości SMS warto zastanowić się nad pojawiającymi się w wiadomościach skrótami (być może skróty zostaną włączone do listy \textit{stopwords} lub rozwinięte do pełnych słów).
+
+\section{Dodatek: Algorytmy dostępne w \textit{R}} 
+
+Poniżej znajduje się lista algorytmów klasyfikacji zaimplementowanych w \textit{R}. W ramach badań porównamy wyniki uzyskane przez zimplementowane
+przez nas algorytmy do wyników działania algorytmu \textit{SVM} i klasyfikacji na podstawie drzewa \textit{CART}.
+
+  \begin{itemize}
+  % \item grupa Boosting
+  % \begin{itemize}
+  	% \item AdaBoost - biblioteka ada.
+  % \end{itemize}
+  \item SVM (Support Vector Machine), dostępne w bibliotekach: e1071, kemlab, klaR, svmpath.
+  \item kNN, dostępne w bibliotekach: knn, knntree, knnflex, kknn, RWeka.
+  \item Naiwny klasyfikator Bayesa - biblioteka e1071.
+  \item Classification and regression trees (CART), dostępne w bibliotekach: rpart, tree.
+    % \begin{itemize}
+  	% \item 
+  	% \item J48 - RWeka
+  % \end{itemize}
+  \end{itemize}
 
 \end{document}
