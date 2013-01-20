@@ -5,6 +5,9 @@
 \usepackage{fullpage}
 \usepackage{hyperref}
 
+\newtheorem{rg}{Reguła}
+\newtheorem{twr}{Twierdzenie}
+
 \title{Proste algorytmy klasyfikacji tekstu \\ Raport końcowy}
 \author{Marcin Kaczyński \and Krystian Lieber}
 
@@ -21,19 +24,50 @@ Do nauki i oceny klasyfikatorów wykorzystano zbiór \textit{SMS Spam Collection
 \section{Algorytmy}
 
 W sekcji znajduje się opis wykorzystywanych algorytmów. W stosunku do informacji zawartych w dokumentacji wstępnej, opis został rozszerzony o 
-informacje i decyzje związane z implementacją. Zgodnie z wymaganiami, algorytmy zostały zaimplementowane w języku \textbf{R}.
+podstawowe informacje i decyzje związane z implementacją. Zgodnie z wymaganiami, algorytmy zostały zaimplementowane w języku \textbf{R}.\\
+
+Ogólnie implementacja wszystkich algorytmów wykorzystuje funkcje dostępne w pakiecie \textit{tm}\footnote{http://cran.r-project.org/web/packages/tm/index.html}. W szczególności wykorzystywane są funkcje pozwalające na budowanie korpusu z tekstów (w tym przypadku wiadomości są traktowane jako dokumenty wchodzące w skład korpusu), oraz funkcje do wyznaczania częstości występowania słów w korpusie.
 
 \subsection{Algorytm \textit{k-NN}}
 
 opisz
 
+\subsection{Naiwny klasyfikator Bayesa}
+
+\begin{rg}[Bayes]
+Próbkę $X$ klasyfikujemy jako pochodzącą z tej klasy $C_i$, dla której wartość $P(C_i|X), i = 1, 2, \dots, m$, jest największa.
+\end{rg}
+ 
+Problem sprowadza się do wyznaczenia prawdopodobieństw $P(C_i|X)$. W ogólności aby wyznaczyć te prawdopodobieństwa, należy skorzystać z~następującego twierdzenia:
+
+\begin{twr}[Bayes]
+$P(C|X) = \frac{P(X|C)*P(C)}{P(X)}$
+\end{twr}
+ 
+gdzie:
+
+\begin{itemize}
+\item \textbf{$P(C)$} jest prawdopodobieństwem \textit{a priori} wystąpienia klasy $C$,
+\item \textbf{$P(X|C)$} oznacza prawdopodobieństwo \textit{a posteriori}, że $X$ należy do klasy $C$,
+\item \textbf{$P(X)$} oznacza prawdopodobieństwo \textit{a priori} wystąpienia przykładu $X$.
+\end{itemize} 
+ 
+Przy założeniu o niezależności atrybutów, prawdopodobieństwo $P(X|C_i)$ możemy wyznaczyć z formuły $P(X|C_i) = \prod\limits_{j=1}^n P(x_j|C_i)$, gdzie wartości prawdopodobieństw iloczynu estymujemy wykorzystując następujący wzór:
+
+\begin{center}
+$\frac{n_k + 1}{n + |D|}$
+\end{center}
+
+gdzie $n$ - całkowita liczba słów w wiadomościach uczących które należą do klasy $C_i$, $n_k$ - liczba wystąpień słów $x_j$ w tekstach z klasy $C_i$, a $|D|$ - liczba rozróżnialnych słów występujących we wszystkich tekstach uczących.
+
+Warto zaznaczyć, że w przypadku dokumentów tekstowych nie jest spełnione założenie o warunkowej niezależności wartości atrybutów (w tekstach wystąpienie niektórych słów może zależeć od innych, zdania mają pewną uporządkowaną strukturę), jednak w praktyce nie obniża to skuteczności klasyfikatora. W zadaniu klasyfikowania wiadomości atrybutami są kolejne słowa w wiadomości.\\
+
+
+
 \subsection{Algorytm \textit{TF-IDF}}
 
 mk opisze
 
-\subsection{Naiwny klasyfikator Bayesa}
-
-mk opisze
 
 \subsection{Algortym z R}
 
