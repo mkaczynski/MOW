@@ -149,7 +149,104 @@ wartością zwracaną przez algorytm. W ramach oceny uwzględniono oddzielnie ja
 
 \section{Wyniki}
 
-podejślij w jakiejś surowej postaci, to wkleję żeby było jednolicie
+W tabelach w poniższych sekcjach, przyjęto następującą konwencję:\\
+
+\begin{itemize}
+\item min: $k$ - oznacza, że z korpusu usunięto słowa o liczności mniejszej niż $k$,
+\item wartości w komórkach oznaczają jakość klasyfikacji obliczoną jako iloraz próbek dobrze sklasyfikowanych do wielkości całego zbioru.
+\end{itemize}
+
+Dla przykładowego zbioru testowego, w którego skład wchodzi $70\%$ zbioru \textit{SMSSpamCollection},
+rozmiar korpusu przedstawia się następująco:\\
+
+\begin{tabular}{l | l}
+0 & 6313 pojęć \\
+1 & 2998 pojęć \\
+2 & 2045 pojęć \\
+3 & 1588 pojęć \\
+4 & 1310 pojęć \\
+5 & 1122 pojęcia \\
+6 & 973 pojęcia \\
+7 & 866 pojęć \\
+10  & 665 pojęć \\
+30  & 237 pojęć \\
+100 & 57 pojęć \\
+\end{tabular}
+\\
+
+gdzie wartość z pierwszej kolumny, oznacza, że słowa występujące w korpusie mniej razy, niż ta wartość, zostały usunięte.
+
+\subsubsection{Algorytm \textit{k-NN}}
+
+opisz
+
+\subsubsection{Algorytm \textit{TF-IDF}}
+
+\subsubsection{Naiwny klasyfikator Bayesa}
+
+\begin{itemize}
+\item Wersja 1. Prawdopodobieństwo wystąpienia klasy jest takie jak wynika z liczności próbek danej klasy, a więc w przypadku zbioru 
+	\textit{SMSSpamCollection} $0.866$ dla klasy \textit{ham} i $0.134$ dla klasy \textit{spam}.
+\item Wersja 2. Prawdopodobieństwa wystąpienia klas są równe.
+\item Wersja 3. Prawdopodobieństwo wystąpienia klasy \textit{ham} jest większe niż w punkcie~1.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{table}
+\centering
+\begin{tabular}{|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
+\hline
+liczność & \textit{ham} & \textit{spam} & ogółem \\ \hline
+min: $0$ & 0.9883 & 0.8889 & 0.9749 \\ \hline
+min: $1$ & 0.9855 & 0.9111 & 0.9755 \\ \hline
+min: $2$ & 0.9862 & 0.9244 & 0.9778 \\ \hline
+min: $3$ & 0.9869 & 0.9244 & 0.9785 \\ \hline
+min: $4$ & 0.9883 & 0.9244 & 0.9790 \\ \hline
+min: $5$ & 0.9890 & 0.9289 & 0.9803 \\ \hline
+min: $6$ & 0.9890 & 0.9244 & 0.9803 \\ \hline
+min: $7$ & 0.9862 & 0.9244 & 0.9779 \\ \hline
+min: $10$ & 0.9848 & 0.9244 & 0.9767 \\ \hline
+min: $30$ & 0.9772 & 0.8533 & 0.9642 \\ \hline
+min: $100$ & 0.7289 & 0.9862 & \\ \hline
+
+\end{tabular}
+\caption{Bayes - wersja 1}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
+\hline
+liczność & \textit{ham} & \textit{spam} & ogółem \\ 
+\hline
+
+min: $0$ & 0.9745 & 0.9200 & 0.9671 \\ \hline
+min: $5$ & 0.9648 & 0.9333 & 0.9606 \\ \hline
+
+\end{tabular}
+\caption{Bayes - wersja 2}
+\end{table}
+
+W przypadku tabeli\ref{bayes:tab3} w kolumnie 2 zamieszczono informację o ustalonym prawdopodobieństwie
+wystąpienia klasy \textit{spam}. Jej rzeczywiste prawdopodobieństwo to $0.134$.
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l||p{2.5cm}|p{2.5cm}||p{2.5cm}|}
+\hline
+liczność &  & \textit{ham} & \textit{spam} & ogółem \\ 
+\hline
+
+min: $0$ & 0.2 & 0.9862 & 0.9022 & 0.9749 \\ \hline
+min: $5$ & 0.2 & 0.9841 & 0.9333 & 0.9773 \\ \hline
+min: $0$ & 0.3 & 0.9821 & 0.9200 & 0.9737 \\ \hline
+min: $5$ & 0.3 & 0.9786 & 0.9333 & 0.9725 \\ \hline
+
+\end{tabular}
+\caption{Bayes - wersja 3}
+\label{bayes:tab3}
+\end{table}
 
 \section{Wnioski}
 
