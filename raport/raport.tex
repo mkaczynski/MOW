@@ -4,14 +4,30 @@
 \usepackage{polski}
 \usepackage{fullpage}
 \usepackage{hyperref}
+\usepackage{listings}
 
 \newtheorem{rg}{Reguła}
 \newtheorem{twr}{Twierdzenie}
+
+\lstdefinestyle{customr}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=R,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  % keywordstyle=\bfseries\color{green!40!black},
+  % commentstyle=\itshape\color{purple!40!black},
+  % identifierstyle=\color{blue},
+  % stringstyle=\color{orange},
+}
 
 \title{Proste algorytmy klasyfikacji tekstu \\ Raport końcowy}
 \author{Marcin Kaczyński \and Krystian Lieber}
 
 \begin{document}
+\lstset{style=customr}
 
 \maketitle
 
@@ -62,12 +78,41 @@ gdzie $n$ - całkowita liczba słów w wiadomościach uczących które należą 
 
 Warto zaznaczyć, że w przypadku dokumentów tekstowych nie jest spełnione założenie o warunkowej niezależności wartości atrybutów (w tekstach wystąpienie niektórych słów może zależeć od innych, zdania mają pewną uporządkowaną strukturę), jednak w praktyce nie obniża to skuteczności klasyfikatora. W zadaniu klasyfikowania wiadomości atrybutami są kolejne słowa w wiadomości.\\
 
-
-
 \subsection{Algorytm \textit{TF-IDF}}
 
-mk opisze
+\textit{TF-IDF} (Term Frequency Inverted Document Frequency) jest metodą wyznaczania ważności słowa występującego w dokumencie w kontekście korpusu. Waga rośnie proporcjonalnie do ilości wystąpień w tekście, ale jest skalowana przez ilość wszystkich wystąpień. Takie podejście pozwala na eliminację słów często występujących, które jednocześnie nie niosą z sobą informacji. Takie skalowanie pozwala uniezależnić się od przygotowywanej listy tzw. \textit{stopwords}.
 
+\subparagraph{TF}
+\begin{equation}
+  tf(t,d)=f(t,d)  
+\end{equation}
+
+
+gdzie t - słowo, d - dokument\\
+
+f(t,d) ilość wystąpień słowa t w dokumencie d
+
+\subparagraph{IDF}
+\begin{equation}
+idf(t,D)=\log \frac{D}{d}
+\end{equation}
+
+gdzie t - słowo, D - liczba dokumentów, d - liczba dokumentów zawierających słowo t
+
+\subparagraph{TF-IDF}
+  
+\begin{equation}
+tfidf(t,d,D)=tf(t,d)*idf(t,D)
+\end{equation}
+
+\textit{TF-IDF} najczęściej jest wykorzystywane jako metoda obliczania wagi w innym algorytmie. W ramach zadania zaimplementowano metodę klasyfikacji polegającą na obliczeniu współczynnika \textit{tf-idf} dla słów z danej klasy w kontekście zbioru wszystkich dokumentów. Obliczony współczynni był następnie normalizowany ze względu na liczbę wszystkich słów w danej klasie. Ta suma współczynników dla słów klasyfikowanej wiadomości która ma najwyższą wartość determinuje wybór tej klasy dla której została obliczona.\\
+
+W \textbf{R} obiczenie współczynników \textit{tf-idf}, sprowadza się do wykonania:
+
+\begin{lstlisting}[]
+dtm <- DocumentTermMatrix(
+	data_corpus, control = list(weighting=weightTfIdf))
+\end{lstlisting}
 
 \subsection{Algortym z R}
 
