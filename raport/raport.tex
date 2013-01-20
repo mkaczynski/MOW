@@ -79,7 +79,13 @@ mk opisze
 
 \section{Ocena jakości modeli} % sposób oceny jakości modeli,
 
-mk opisze
+Modele dla opisanych algorytmów były budowane z wykorzystaniem $70\%$ danych ze zbioru \textit{SMSSpamCollection}. Dane do budowy modeli zostały
+wybrane w sposób losowy, z zachowaniem proporcji w klasach (tzn. wybierano dokładnie $70\%$ danych przypisanych do klasy \textit{spam} i $70\%$ 
+danych z klasy \textit{ham}. Pozostałe $30\%$ wykorzystano do przetestowania jakości budowanych modeli. Algorytmy były testowane z wykorzystaniem
+tych samych zbiorów danych uczących i testowych, w celu zachowania możliwie dużego stopnia obiektywności oceny.\\
+
+Modele były oceniane w taki sposób, że dla każdej próbki ze zbioru testowego, porównywano rzeczywistą klasę do której przypisana jest próbka, z
+wartością zwracaną przez algorytm. W ramach oceny uwzględniono oddzielnie jakość oceny klasyfikacji próbek ze zbioru \textit{spam} (iloraz niechcianych widomości do ich łącznej liczny) oraz \textit{ham} (analogicznie), oraz ogólny wskaźnik jakości (iloraz prawidłowo sklasyfikowanych próbek do wszystkich próbek w zbiorze testowym).
 
 \section{Wyniki}
 
