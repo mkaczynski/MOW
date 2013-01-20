@@ -61,7 +61,17 @@ Wybrany zbiór danych (\textit{SMS Spam Collection}) jest zbiorem etykietowanych
 
 \subsection{Preprocessing zbioru danych}
 
-mk opisze
+W ramach wstępnego przetwarzania danych, zostały wykonana następujące kroki:
+
+\begin{itemize}
+\item z tekstów zostały wycięte znaki interpunkcyjne i znaki specjalne,
+% \# \& \' \( \) \* \+ \, \- \. \/ \: \; \< \= \> \? \@ \[ \\ \] \^ \_ \` \{ \| \} \~ \% \$ \- \! \"
+\item z tekstów zostały wycięte wszystkie liczby,
+\item wielokrotnie występujące białe znaki zostały zastąpione pojedynczymi spacjami,
+\item zostały usunięte słowa z listy stopwords dla języka angielskiego zdefiniowanej w pakiecie \textit{tm} R.
+\end{itemize}
+
+Implementacja przewiduje również usunięcie znaczników xml z tekstów, ale w przypadku badanego zbioru nie występuje potrzeba usuwania takich znaczników. W stosunku do wcześniejszch rozważań, nie wykonano rozwijania skrótów pojawiających się w wiadomościach, ani nie włączono ich do listy stopwords.
 
 \section{Parametry algorytmów} % parametry algorytmów, których wpływ na wyniki był badany,
 
