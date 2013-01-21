@@ -191,4 +191,19 @@ przez nas algorytmy do wyników działania algorytmu \textit{SVM} i klasyfikacji
   % \end{itemize}
   \end{itemize}
 
+
+\section{Implementacja i badanie}
+\subsection{Algorytm \textit{k-NN}}
+W projektu zaimplementowano trzy rozwiązania oparte o algorytm \textit{k-NN}.
+
+Oba z nich oparte są o różne funkcje obliczania odległości z pakietu proxy oraz o pakiet tm. Podstawowe cechy algorytmu nie odbiegają od standardowych implementacji. Różnica polega na sposobie przetworzenia danych wejściowych oraz obliczania odległości. 
+
+W przypadku pierwszego algorytmu obliczana jest odległość między wektorami zawierającymi pełną treść dokumentu. W przypadku drugim tekst jest na początku przetwarzany. Następuje usunięcie znaków interpunkcyjnych, zmiana wielkości liter, usunięcie słów nie znacznacych(\textit{stopwords}) i stemming. Dopiero między tak przetworzonymi dokumentami obliczana jest odległość. Trzecia metoda polega na wstępnym przetworzeniu tekstu jak w metodzie drugiej, a następnie tworzona jest macierz dokument-term zawierającej ilość wystąpień termu w poszczególnych dokumentach. Między wektorami zawierającymi częstotliwości termów obliczana jest odległość.
+
+W ramach testów wypróbowano zakres k od 1 do 20 oraz kilka wybranych metod obliczania odległości udostępnionych przez pakiet proxy. Z uwagi na dużą ilość wyników tutaj zostanie zaprezentowana jedynie analiza, natomiast pełne wyniki dostępne są w postaci pliku tekstowego.
+
+
+
 \end{document}
+
+\section{Kwestie otwarte}
